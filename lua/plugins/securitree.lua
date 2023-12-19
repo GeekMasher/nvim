@@ -1,19 +1,15 @@
 return {
     {
-        -- "GeekMasher/securitree.nvim",
-        dir = "~/development/security/securitree.nvim",
+        "GeekMasher/securitree.nvim",
+        event = "VeryLazy",
         dependencies = {
             "MunifTanjim/nui.nvim"
         },
         config = function()
             require("securitree").setup({
-                autocmd = false,
-                -- autopanel = true,
+                autocmd = true,
                 features = {
                     assertions = true
-                },
-                paths = {
-                    "/home/geekmasher/development/security/securitree.nvim/queries"
                 }
             })
         end
