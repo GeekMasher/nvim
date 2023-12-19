@@ -1,6 +1,6 @@
 # nvim
 
-GeekMasher's [Neovim][neovim] Configuration!
+[GeekMasher's][geekmasher-repo] [Neovim][neovim] Configuration! Easy to install and use for others.
 
 ## 📦 Install
 
@@ -10,11 +10,7 @@ git clone git@github.com:GeekMasher/nvim.git .config/nvim
 
 ## Support
 
-Please create issues for any feature requests, bugs, or documentation problems.
-
-## Acknowledgement
-
-- @GeekMasher - Author and Maintainer
+Feel free to create issues for any feature requests or bugs.
 
 ## Licence
 
@@ -23,4 +19,5 @@ Please refer to [MIT](./LICENSE.md) for the full terms.
 
 <!-- resources / references -->
 
+[geekmasher-repo]: https://github.com/GeekMasher
 [neovim]: https://neovim.io/
