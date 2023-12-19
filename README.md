@@ -1,6 +1,7 @@
 # nvim
 
-[GeekMasher's][geekmasher-repo] [Neovim][neovim] Configuration! Easy to install and use for others.
+[GeekMasher's][geekmasher-repo] [Neovim][neovim] Configuration!
+Easy to install with a single command and run on any Unix machine.
 
 ## 📦 Install
 
