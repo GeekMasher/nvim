@@ -1,14 +1,18 @@
 return {
     {
         "GeekMasher/DevSecInspect.nvim",
+        event = "VeryLazy",
         dependencies = {
             "MunifTanjim/nui.nvim",
         },
         config = function()
             require("devsecinspect").setup({
                 tools = {
-                    bandit = {},
+                    -- SCA
                     npmaudit = {},
+                    cargoaudit = {},
+                    -- SAST
+                    bandit = {},
                     semgrep = {},
                     quibble = {},
                 },
