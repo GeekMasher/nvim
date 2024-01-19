@@ -11,7 +11,7 @@ return {
         end
     },
     "nvim-lua/plenary.nvim",
-    "folke/neodev.nvim",
+    { "folke/neodev.nvim", opts = {} },
     -- Trouble
     {
         -- https://github.com/folke/trouble.nvim
