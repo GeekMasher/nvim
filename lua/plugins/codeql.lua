@@ -43,12 +43,13 @@ return {
                 long_filename = false,
                 context_lines = 3,
             },
-            max_ram = 32000,
+            max_ram = 16000,
             job_timeout = 15000,
             format_on_save = true,
             additional_packs = {
                 "./codeql",
             },
+            find_databases_cmd = { "codeql-db-list" },
             mappings = {
                 run_query = { modes = { "n" }, lhs = "<leader>qr", desc = "run query" },
                 quick_eval = { modes = { "x", "n" }, lhs = "<leader>qe", desc = "quick evaluate" },

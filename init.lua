@@ -158,6 +158,12 @@ vim.keymap.set(
     end
 )
 
+-- CodeQL
+local codeql = require("codeql")
+vim.keymap.set('n', '<leader>qd', function()
+    codeql.list_databases()
+end)
+
 -- Trouble
 vim.keymap.set("n", "<F11>", "<cmd>TroubleToggle<cr>", { silent = true, noremap = true })
 -- vim.keymap.set("n", "<leader>tf", "<cmd>TroubleToggle quickfix<cr>", { silent = true, noremap = true })
