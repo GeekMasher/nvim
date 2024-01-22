@@ -1,11 +1,7 @@
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
-		-- event = "VeryLazy",
-		dependencies = {
-			"nvim-treesitter/playground",
-			"nvim-treesitter/nvim-treesitter-textobjects",
-		},
+		event = "VeryLazy",
 		config = function()
 			require("nvim-treesitter.install").update({ with_sync = true })
 			require("nvim-treesitter.configs").setup({
