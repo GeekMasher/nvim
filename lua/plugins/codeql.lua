@@ -48,6 +48,7 @@ return {
             format_on_save = true,
             additional_packs = {
                 "./codeql",
+                "./codeql-community",
             },
             find_databases_cmd = { "codeql-db-list" },
             mappings = {
