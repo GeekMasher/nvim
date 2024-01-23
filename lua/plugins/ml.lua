@@ -27,6 +27,7 @@ return {
 	},
 	{
 		"David-Kunz/gen.nvim",
+		event = "VeryLazy",
 		opts = {
 			model = "codellama",
 			display_mode = "float", -- The display mode. Can be "float" or "split".
