@@ -43,6 +43,6 @@ Please refer to [MIT](./LICENSE.md) for the full terms.
 
 [geekmasher-repo]: https://github.com/GeekMasher
 [neovim]: https://neovim.io/
-[devsecinspect]: https://github.com/GeekMasher/nvim
+[devsecinspect]: https://github.com/GeekMasher/DevSecInspect.nvim
 [securitree]: https://github.com/GeekMasher/securitree.nvim
 [github-copilot]: https://github.com/features/copilot
