@@ -10,8 +10,28 @@ return {
 			require("gitsigns").setup({})
 		end,
 	},
-	"nvim-lua/plenary.nvim",
-	{ "folke/neodev.nvim", opts = {} },
+	-- Which Key
+	{
+		"folke/which-key.nvim",
+		event = "VeryLazy",
+	},
+	--
+	{
+		"nvim-lua/plenary.nvim",
+	},
+	{
+		"folke/neodev.nvim",
+		opts = {},
+	},
+	-- todo comments
+	{
+		"folke/todo-comments.nvim",
+		event = "VimEnter",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+		},
+		opts = { signs = false },
+	},
 	-- Trouble
 	{
 		-- https://github.com/folke/trouble.nvim

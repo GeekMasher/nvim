@@ -1,119 +1,134 @@
+--[[
+
+    LSP Configuration (the magic happens here)
+
+Resources:
+- https://github.com/nvim-lua/kickstart.nvim/blob/5e258d276fef52cc45a17021dc83a95748a0bc7f/init.lua#L423-L451
+
+--]]
+
 return {
+	-- LSP
 	{
-		"VonHeikemen/lsp-zero.nvim",
+		"neovim/nvim-lspconfig",
 		dependencies = {
-			-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-			"neovim/nvim-lspconfig",
+			-- Mason is amazing
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
+			"WhoIsSethDaniel/mason-tool-installer.nvim",
+
 			"j-hui/fidget.nvim",
+			"folke/neodev.nvim",
 		},
 		config = function()
-			local lsp = require("lsp-zero").preset({
-				name = "minimal",
-				set_lsp_keymaps = true,
-				manage_nvim_cmp = true,
-				suggest_lsp_servers = false,
-			})
-			lsp.ensure_installed({
-				"rust_analyzer",
-				"pyright",
-				"jsonls",
-				"yamlls",
-			})
-			lsp.nvim_workspace()
+			-- On attach
+			vim.api.nvim_create_autocmd("LspAttach", {
+				group = vim.api.nvim_create_augroup("geekmasher-lsp-attach", { clear = true }),
+				callback = function(event)
+					local map = function(keys, func, desc)
+						vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
+					end
 
-			lsp.setup()
-		end,
-	},
-	{
-		"jose-elias-alvarez/null-ls.nvim",
-		config = function()
-			local null_ls = require("null-ls")
-			null_ls.setup({
-				sources = {
-					-- General
-					null_ls.builtins.diagnostics.typos,
-					null_ls.builtins.code_actions.gitsigns,
-					null_ls.builtins.diagnostics.dotenv_linter,
-					null_ls.builtins.formatting.prettier.with({ filetypes = { "markdown" } }),
-					null_ls.builtins.diagnostics.markdownlint,
-					null_ls.builtins.diagnostics.rstcheck,
-					null_ls.builtins.formatting.dprint,
-					-- null_ls.builtins.completion.spell,
-					-- Actions
-					null_ls.builtins.diagnostics.actionlint,
-					-- Docker
-					null_ls.builtins.diagnostics.hadolint,
-					-- Lua
-					null_ls.builtins.formatting.stylua.with({
-						args = { "--indent-type", "Spaces", "--indent-width", "2" },
-					}),
-					null_ls.builtins.diagnostics.luacheck,
-					-- Python
-					null_ls.builtins.formatting.black,
-					null_ls.builtins.diagnostics.pydocstyle,
-					-- Rust
-					null_ls.builtins.formatting.rustfmt,
+					map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+					map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
 
-					-- Security
-					-- null_ls.builtins.diagnostics.semgrep,
+					map("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
+					map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
+					map("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
+					map(
+						"<leader>ws",
+						require("telescope.builtin").lsp_dynamic_workspace_symbols,
+						"[W]orkspace [S]ymbols"
+					)
+					map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
+					map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
+					map("<leader>K", vim.lsp.buf.hover, "Hover Documentation")
+					map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+
+					local client = vim.lsp.get_client_by_id(event.data.client_id)
+					if client and client.server_capabilities.documentHighlightProvider then
+						vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+							buffer = event.buf,
+							callback = vim.lsp.buf.document_highlight,
+						})
+
+						vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+							buffer = event.buf,
+							callback = vim.lsp.buf.clear_references,
+						})
+					end
+
+					if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
+						map("<leader>th", function()
+							vim.lsp.inlay_hint.enable(0, not vim.lsp.inlay_hint.is_enabled())
+						end, "[T]oggle Inlay [H]ints")
+					end
+				end,
+			})
+
+			local capabilities = vim.lsp.protocol.make_client_capabilities()
+			capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+
+			-- LSP Servers Configuration
+			local servers = {
+				rust_analyzer = {},
+				pyright = {},
+				gopls = {},
+				tsserver = {},
+				jsonls = {},
+				yamlls = {},
+				lua_ls = {
+					settings = {
+						Lua = {
+							completion = {
+								callSnippet = "Replace",
+							},
+						},
+					},
 				},
-			})
-		end,
-	},
-	{
-		"hrsh7th/nvim-cmp",
-		dependencies = {
-			"hrsh7th/nvim-compe",
-			"L3MON4D3/LuaSnip",
-			"hrsh7th/cmp-nvim-lsp",
-			"onsails/lspkind-nvim",
-			"hrsh7th/cmp-path",
-			"hrsh7th/cmp-buffer",
-			"hrsh7th/cmp-emoji",
-		},
-		config = function()
-			local cmp = require("cmp")
-			-- local luasnip = require("luasnip")
+			}
 
-			cmp.setup({
-				snippet = {
-					expand = function(args)
-						require("luasnip").lsp_expand(args.body)
+			-- Setup Mason
+			require("mason").setup()
+
+			local ensure_installed = vim.tbl_keys(servers or {})
+			vim.list_extend(ensure_installed, {
+				"stylua",
+			})
+			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
+
+			require("mason-lspconfig").setup({
+				handlers = {
+					function(server_name)
+						local server = servers[server_name] or {}
+						-- This handles overriding only values explicitly passed
+						-- by the server configuration above. Useful when disabling
+						-- certain features of an LSP (for example, turning off formatting for tsserver)
+						server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+						require("lspconfig")[server_name].setup(server)
 					end,
 				},
-				mapping = {
-					["<C-p>"] = cmp.mapping.select_prev_item(),
-					["<C-n>"] = cmp.mapping.select_next_item(),
-					-- Tab support
-					["<Tab>"] = nil,
-					["<S-Tab>"] = nil,
-					-- docs
-					["<C-j>"] = cmp.mapping.scroll_docs(-4),
-					["<C-k>"] = cmp.mapping.scroll_docs(4),
-					-- complete, close, confirm
-					["<C-Space>"] = cmp.mapping.complete(),
-					["<C-e>"] = cmp.mapping.abort(),
-					["<CR>"] = cmp.mapping.confirm({
-						behavior = cmp.ConfirmBehavior.Insert,
-						select = true,
-					}),
-				},
-				sources = {
-					{ name = "nvim_lsp" },
-					{ name = "nvim_lua" },
-					{ name = "luasnip" },
-					-- { name = 'vsnip' },
-					{ name = "buffer" },
-					{ name = "path" },
-					{ name = "emoji" },
-					-- Crates
-					{ name = "crates" },
-				},
 			})
 		end,
 	},
-	"glepnir/lspsaga.nvim",
-	"simrat39/symbols-outline.nvim",
+	-- Auto format
+	{
+		"stevearc/conform.nvim",
+		lazy = false,
+		opts = {
+			notify_on_error = false,
+			format_on_save = function(bufnr)
+				local disable_filetypes = { c = true, cpp = true }
+				return {
+					timeout_ms = 500,
+					lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
+				}
+			end,
+			-- Formatters
+			formatters_by_ft = {
+				lua = { "stylua" },
+				python = { "black" },
+			},
+		},
+	},
 }

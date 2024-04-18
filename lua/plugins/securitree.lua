@@ -6,12 +6,12 @@ return {
 			"MunifTanjim/nui.nvim",
 		},
 		config = function()
-			require("securitree").setup({
-				autocmd = true,
-				features = {
-					assertions = true,
-				},
-			})
+			-- require("securitree").setup({
+			-- 	autocmd = true,
+			--	features = {
+			-- 		assertions = true,
+			-- 	},
+			-- })
 		end,
 	},
 }
