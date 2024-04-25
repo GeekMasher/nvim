@@ -99,6 +99,22 @@ return {
                 },
             }
 
+            -- RustaceanVim
+            vim.g.rustaceanvim = {
+                server = {
+                    default_settings = {
+                        -- rust-analyzer language server configuration
+                        ["rust-analyzer"] = {
+                            cargo = {
+                                features = "all",
+                            },
+                        },
+                    },
+                },
+                -- DAP configuration
+                dap = {},
+            }
+
             -- Setup Mason
             require("mason").setup()
 
