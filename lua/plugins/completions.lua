@@ -20,6 +20,7 @@ return {
 					},
 				},
 			},
+			"hrsh7th/nvim-compe",
 			"saadparwaiz1/cmp_luasnip",
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-path",
@@ -60,4 +61,6 @@ return {
 			})
 		end,
 	},
+	"glepnir/lspsaga.nvim",
+	"simrat39/symbols-outline.nvim",
 }
