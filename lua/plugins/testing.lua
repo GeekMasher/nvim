@@ -2,12 +2,15 @@
 
 return {
     {
+        -- https://github.com/nvim-neotest/neotest
         "nvim-neotest/neotest",
         dependencies = {
             "nvim-neotest/nvim-nio",
             "nvim-lua/plenary.nvim",
             "antoinemadec/FixCursorHold.nvim",
             "nvim-treesitter/nvim-treesitter",
+            -- Python adapter
+            "nvim-neotest/neotest-python",
         },
         config = function()
             require("neotest").setup({
@@ -15,6 +18,8 @@ return {
                 adapters = {
                     -- Rust
                     require("rustaceanvim.neotest"),
+                    -- Python
+                    require("neotest-python"),
                 },
             })
 
