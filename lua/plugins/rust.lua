@@ -6,6 +6,23 @@ return {
     {
         "mrcjkb/rustaceanvim",
         event = "VeryLazy",
+        config = function()
+            -- RustaceanVim
+            -- https://rust-analyzer.github.io/manual.html#configuration
+            vim.g.rustaceanvim = {
+                server = {
+                    cmd = { "rustup", "run", "nightly", "rust-analyzer" },
+                    settings = {
+                        -- rust-analyzer language server configuration
+                        ["rust-analyzer"] = {
+                            cargo = {
+                                features = "all",
+                            },
+                        },
+                    },
+                },
+            }
+        end,
     },
     {
         "saecki/crates.nvim",

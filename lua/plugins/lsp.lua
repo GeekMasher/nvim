@@ -21,8 +21,42 @@ return {
             "folke/neodev.nvim",
 
             "pmizio/typescript-tools.nvim",
+
+            -- Rust
+            "mrcjkb/rustaceanvim",
         },
-        config = function()
+        opts = {
+            -- LSP Servers Configuration
+            setup = {
+                rust_analyzer = function()
+                    return true
+                end,
+                pyright = {},
+                gopls = {},
+                bashls = {},
+                -- Web Dev
+                tsserver = {},
+                html = {},
+                htmx = {},
+                tailwindcss = {},
+                -- Markdown Languages
+                jsonls = {},
+                yamlls = {},
+                -- Docker
+                dockerls = {},
+                -- Lua
+                lua_ls = {
+                    settings = {
+                        Lua = {
+                            completion = {
+                                callSnippet = "Replace",
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        config = function(_, opts)
             -- On attach
             vim.api.nvim_create_autocmd("LspAttach", {
                 group = vim.api.nvim_create_augroup("geekmasher-lsp-attach", { clear = true }),
@@ -71,52 +105,10 @@ return {
             local capabilities = vim.lsp.protocol.make_client_capabilities()
             capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
-            -- LSP Servers Configuration
-            local servers = {
-                -- rust_analyzer = {},
-                pyright = {},
-                gopls = {},
-                bashls = {},
-                -- Web Dev
-                -- tsserver = {},
-                html = {},
-                htmx = {},
-                tailwindcss = {},
-                -- Markdown Languages
-                jsonls = {},
-                yamlls = {},
-                -- Docker
-                dockerls = {},
-                -- Lua
-                lua_ls = {
-                    settings = {
-                        Lua = {
-                            completion = {
-                                callSnippet = "Replace",
-                            },
-                        },
-                    },
-                },
-            }
-
-            -- RustaceanVim
-            vim.g.rustaceanvim = {
-                server = {
-                    default_settings = {
-                        -- rust-analyzer language server configuration
-                        ["rust-analyzer"] = {
-                            cargo = {
-                                features = "all",
-                            },
-                        },
-                    },
-                },
-            }
-
             -- Setup Mason
             require("mason").setup()
 
-            local ensure_installed = vim.tbl_keys(servers or {})
+            local ensure_installed = vim.tbl_keys(opts.setup or {})
             vim.list_extend(ensure_installed, {
                 "stylua",
             })
@@ -125,12 +117,17 @@ return {
             require("mason-lspconfig").setup({
                 handlers = {
                     function(server_name)
-                        local server = servers[server_name] or {}
-                        -- This handles overriding only values explicitly passed
-                        -- by the server configuration above. Useful when disabling
-                        -- certain features of an LSP (for example, turning off formatting for tsserver)
-                        server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-                        require("lspconfig")[server_name].setup(server)
+                        local server = opts.setup[server_name] or {}
+                        if type(server) == "boolean" or type(server) == "function" then
+                            -- Skip if server loading
+                        else
+                            -- This handles overriding only values explicitly passed
+                            -- by the server configuration above. Useful when disabling
+                            -- certain features of an LSP (for example, turning off formatting for tsserver)
+                            server.capabilities =
+                                vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+                            require("lspconfig")[server_name].setup(server)
+                        end
                     end,
                 },
             })
