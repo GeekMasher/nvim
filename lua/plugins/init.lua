@@ -1,8 +1,4 @@
 return {
-    -- Status Line
-    {
-        "nvim-lualine/lualine.nvim",
-    },
     -- Git
     {
         "lewis6991/gitsigns.nvim",
