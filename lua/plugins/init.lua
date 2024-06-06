@@ -32,19 +32,21 @@ return {
     {
         -- https://github.com/folke/trouble.nvim
         "folke/trouble.nvim",
-        config = function()
-            require("trouble").setup({
-                icons = true,
-                height = 15,
-                mode = "document_diagnostics",
-                -- auto_open = true,
-                auto_close = true,
-                action_keys = {
-                    close = "q",
-                    toggle_mode = "m",
-                },
-            })
-        end,
+        dependencies = {
+            "nvim-tree/nvim-web-devicons",
+            "nvim-treesitter/nvim-treesitter",
+        },
+        opts = {
+            height = 15,
+            mode = "document_diagnostics",
+            auto_close = true,
+        },
+        keys = {
+            {
+                "<F11>",
+                "<cmd>Trouble diagnostics toggle<cr>",
+            },
+        },
     },
     {
         "kylechui/nvim-surround",
