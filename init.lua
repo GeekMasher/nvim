@@ -128,6 +128,9 @@ vim.keymap.set("n", "k", "kzz", opts)
 vim.keymap.set("n", "J", "20jzz", opts)
 vim.keymap.set("n", "K", "20kzz", opts)
 
+vim.keymap.set("n", "L", "w", opts)
+vim.keymap.set("n", "H", "b", opts)
+
 -- Disable Arrow Keys (you have to learn some day)
 vim.keymap.set("n", "<left>", '<cmd>echo "Use h to move!!"<CR>')
 vim.keymap.set("n", "<right>", '<cmd>echo "Use l to move!!"<CR>')
@@ -175,13 +178,3 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
         vim.lsp.buf.format()
     end,
 })
-
--- CodeQL
-local codeql = require("codeql")
-vim.keymap.set("n", "<leader>qd", function()
-    codeql.list_databases()
-end)
-
--- Trouble
-vim.keymap.set("n", "<F11>", "<cmd>TroubleToggle<cr>", { silent = true, noremap = true })
--- vim.keymap.set("n", "<leader>tf", "<cmd>TroubleToggle quickfix<cr>", { silent = true, noremap = true })
