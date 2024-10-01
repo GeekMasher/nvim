@@ -24,6 +24,7 @@ return {
             })
 
             -- Run tests
+            vim.keymap.set("n", "<F12>", "<cmd>lua require('neotest').summary.toggle()<cr>")
             vim.keymap.set("n", "<F5>", "<cmd>lua require('neotest').run.run()<cr>")
             vim.keymap.set("n", "<C-F5>", "<cmd>lua require('neotest').run.run(vim.fn.expand(' % '))<cr>")
         end,
