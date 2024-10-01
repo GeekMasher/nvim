@@ -8,7 +8,7 @@ return {
         require("lualine").setup({
             options = {
                 icons_enabled = true,
-                theme = "tokyonight",
+                theme = "auto",
             },
             sections = {
                 lualine_a = { "mode" },

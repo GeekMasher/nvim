@@ -24,21 +24,51 @@ return {
 
             -- Rust
             "mrcjkb/rustaceanvim",
+            -- VueJS
+            "posva/vim-vue",
         },
         opts = {
             -- LSP Servers Configuration
             setup = {
+                -- Rust
                 rust_analyzer = function()
                     return true
                 end,
+                -- Python
                 pyright = {},
+                -- GoLang
                 gopls = {},
-                bashls = {},
                 -- Web Dev
-                tsserver = {},
+                ts_ls = {
+                    init_options = {
+                        plugins = {
+                            {
+                                name = "@vue/typescript-plugin",
+                                location = function()
+                                    local node_modules = "/usr/local/lib/node_modules/"
+                                    -- For NVM users
+                                    if os.getenv("NVM_BIN") then
+                                        node_modules = os.getenv("NVM_BIN") .. "../lib/node_modules/"
+                                    end
+                                    vim.print("Using node_modules: " .. node_modules)
+                                    return node_modules .. "@vue/typescript-plugin"
+                                end,
+                                languages = { "javascript", "typescript", "vue" },
+                            },
+                        },
+                    },
+                    filetypes = {
+                        "javascript",
+                        "typescript",
+                        "vue",
+                    },
+                },
                 html = {},
-                htmx = {},
+                -- htmx = {},
+                volar = {},
                 tailwindcss = {},
+                -- Bash
+                bashls = {},
                 -- Markdown Languages
                 jsonls = {},
                 yamlls = {},
