@@ -43,7 +43,7 @@ return {
         },
         keys = {
             {
-                "<F11>",
+                "<F10>",
                 "<cmd>Trouble diagnostics toggle<cr>",
             },
         },
