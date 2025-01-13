@@ -5,18 +5,33 @@ return {
     -- https://sharksforarms.dev/posts/neovim-rust/
     {
         "mrcjkb/rustaceanvim",
-        event = "VeryLazy",
+        lazy = false,
         config = function()
             -- RustaceanVim
             -- https://rust-analyzer.github.io/manual.html#configuration
             vim.g.rustaceanvim = {
                 server = {
                     cmd = { "rustup", "run", "nightly", "rust-analyzer" },
-                    settings = {
+                    on_attach = function(client, bufnr)
+                        vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+                    end,
+                    default_settings = {
                         -- rust-analyzer language server configuration
                         ["rust-analyzer"] = {
                             cargo = {
                                 features = "all",
+                                buildScripts = {
+                                    enable = true,
+                                },
+                            },
+                            imports = {
+                                granularity = {
+                                    group = "module",
+                                },
+                                prefix = "self",
+                            },
+                            procMacro = {
+                                enable = true,
                             },
                         },
                     },
