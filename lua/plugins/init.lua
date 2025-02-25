@@ -2,8 +2,9 @@ return {
     -- Git
     {
         "lewis6991/gitsigns.nvim",
+        event = "VimEnter",
         config = function()
-            require("gitsigns").setup({})
+            require("gitsigns").setup()
         end,
     },
     -- Which Key
