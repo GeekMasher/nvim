@@ -161,6 +161,7 @@ vim.keymap.set("n", "<leader>o", vim.diagnostic.open_float, opts)
 vim.keymap.set("n", "<leader>ge", '<cmd>lua vim.cmd.RustLsp("expandMacro")<cr>')
 
 -- Lazy man's saving...
+vim.keymap.set("n", "qq", "<cmd>:wq<cr>")
 vim.keymap.set("n", "<C-s>", "<cmd>:w<cr>")
 
 -- Reselect the visual selections
