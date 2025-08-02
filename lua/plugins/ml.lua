@@ -2,53 +2,61 @@
 -- https://github.com/zbirenbaum/copilot.lua
 
 return {
-    {
-        "zbirenbaum/copilot.lua",
-        event = "VeryLazy",
-        dependencies = {
-            "zbirenbaum/copilot-cmp",
-        },
-        config = function()
-            require("copilot").setup({
-                suggestion = {
-                    enabled = true,
-                    auto_trigger = true,
-                    keymap = {
-                        accept = "<C-a>",
-                    },
-                },
-                panel = {
-                    enabled = true,
-                    auto_refresh = true,
-                    hide_during_completion = true,
-                    keymap = {
-                        accept = "<C-a>",
-                        open = "<F11>",
-                    },
-                    layout = {
-                        position = "right",
-                    },
-                },
-                filetypes = {
-                    yaml = true,
-                    markdown = true,
-                    dotfile = false,
-                },
-            })
+	{
+		"zbirenbaum/copilot.lua",
+		event = "VeryLazy",
+		dependencies = {
+			"zbirenbaum/copilot-cmp",
+		},
+		config = function()
+			require("copilot").setup({
+				suggestion = {
+					enabled = true,
+					auto_trigger = true,
+					keymap = {
+						accept = "<C-a>",
+					},
+				},
+				panel = {
+					enabled = true,
+					auto_refresh = true,
+					hide_during_completion = true,
+					keymap = {
+						accept = "<C-a>",
+						open = "<F11>",
+					},
+					layout = {
+						position = "right",
+					},
+				},
+				filetypes = {
+					yaml = true,
+					markdown = true,
+					dotfile = false,
+				},
+			})
 
-            require("copilot_cmp").setup()
-        end,
-    },
-    {
-        "David-Kunz/gen.nvim",
-        event = "VeryLazy",
-        opts = {
-            model = "codellama",
-            display_mode = "float", -- The display mode. Can be "float" or "split".
-            show_prompt = true, -- Shows the Prompt submitted to Ollama.
-            show_model = true, -- Displays which model you are using at the beginning of your chat session.
-            no_auto_close = false, -- Never closes the window automatically.
-            command = 'ask-ai -m="$model" "$prompt"',
-        },
-    },
+			require("copilot_cmp").setup()
+		end,
+	},
+	{
+		"CopilotC-Nvim/CopilotChat.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+		},
+		opts = {
+			model = "gpt-4.1", -- AI model to use
+			temperature = 0.1, -- Lower = focused, higher = creative
+			window = {
+				layout = "vertical", -- 'vertical', 'horizontal', 'float'
+				width = 0.5, -- 50% of screen width
+			},
+			auto_insert_mode = true, -- Enter insert mode when opening
+		},
+		config = function(opts)
+			require("CopilotChat").setup(opts)
+			-- Key mappings for Copilot Chat
+			vim.api.nvim_set_keymap("n", "<leader>aa", "<cmd>CopilotChat<CR>", { noremap = true, silent = true })
+		end,
+	},
 }
