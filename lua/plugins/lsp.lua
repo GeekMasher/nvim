@@ -41,6 +41,7 @@ return {
 						vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 					end
 
+					-- LSP Keymaps
 					map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
 					map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
 

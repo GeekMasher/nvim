@@ -18,14 +18,14 @@ Resources:
 -- Install Lazy if not present on the system
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-    vim.fn.system({
-        "git",
-        "clone",
-        "--filter=blob:none",
-        "https://github.com/folke/lazy.nvim.git",
-        "--branch=stable",
-        lazypath,
-    })
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable",
+		lazypath,
+	})
 end
 vim.opt.rtp:prepend(lazypath)
 
@@ -102,17 +102,17 @@ vim.opt.incsearch = true
 vim.opt.path:append({ "**" })
 -- Ignore Files
 vim.opt.wildignore:append({
-    -- Git
-    "**/.git/*",
-    -- Python
-    "**/.pyc",
-    -- Rust
-    "**/target/",
-    -- JS/TS
-    "*/node_modules/*",
-    -- Mobile
-    "**/ios/*",
-    "**/android/*",
+	-- Git
+	"**/.git/*",
+	-- Python
+	"**/.pyc",
+	-- Rust
+	"**/target/",
+	-- JS/TS
+	"*/node_modules/*",
+	-- Mobile
+	"**/ios/*",
+	"**/android/*",
 })
 
 local opts = { noremap = true, silent = true }
@@ -144,18 +144,18 @@ vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper win
 
 -- LSP
 -- https://github.com/VonHeikemen/lsp-zero.nvim/blob/v1.x/doc/md/lsp.md#default-keybindings
-vim.keymap.set("n", "<leader>gd", "<cmd>lua vim.lsp.buf.definition()<cr>")
-vim.keymap.set("n", "<leader>gr", "<cmd>lua vim.lsp.buf.references()<cr>")
-vim.keymap.set("n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<cr>")
-
-vim.keymap.set("n", "<leader>k", "<cmd>lua vim.lsp.buf.hover()<cr>")
-vim.keymap.set("n", "<leader>gi", "<cmd>lua vim.lsp.buf.implementation()<cr>")
-vim.keymap.set("n", "<C-K>", "<cmd>lua vim.lsp.buf.signature_help()<cr>")
-
-vim.keymap.set("n", "<leader>gs", "<cmd>lua vim.lsp.buf.document_symbol()<cr>")
-vim.keymap.set("n", "<leader>gw", "<cmd>lua vim.lsp.buf.workspace_symbol()<cr>")
-
-vim.keymap.set("n", "<leader>o", vim.diagnostic.open_float, opts)
+-- vim.keymap.set("n", "<leader>gd", "<cmd>lua vim.lsp.buf.definition()<cr>")
+-- vim.keymap.set("n", "<leader>gr", "<cmd>lua vim.lsp.buf.references()<cr>")
+-- vim.keymap.set("n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<cr>")
+--
+-- vim.keymap.set("n", "<leader>k", "<cmd>lua vim.lsp.buf.hover()<cr>")
+-- vim.keymap.set("n", "<leader>gi", "<cmd>lua vim.lsp.buf.implementation()<cr>")
+-- vim.keymap.set("n", "<C-K>", "<cmd>lua vim.lsp.buf.signature_help()<cr>")
+--
+-- vim.keymap.set("n", "<leader>gs", "<cmd>lua vim.lsp.buf.document_symbol()<cr>")
+-- vim.keymap.set("n", "<leader>gw", "<cmd>lua vim.lsp.buf.workspace_symbol()<cr>")
+--
+-- vim.keymap.set("n", "<leader>o", vim.diagnostic.open_float, opts)
 
 -- TODO Expand Rust Macros
 vim.keymap.set("n", "<leader>ge", '<cmd>lua vim.cmd.RustLsp("expandMacro")<cr>')
@@ -170,12 +170,3 @@ vim.keymap.set("v", ">", ">gv")
 
 -- Lazy Plugins
 require("lazy").setup("plugins")
-
--- On Save run formatter
-local formatters = vim.api.nvim_create_augroup("formatters", { clear = true })
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-    group = formatters,
-    callback = function()
-        vim.lsp.buf.format()
-    end,
-})
