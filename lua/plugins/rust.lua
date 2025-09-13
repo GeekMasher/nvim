@@ -1,3 +1,5 @@
+---@diagnostic disable: undefined-global
+
 return {
 	-- Rust
 	-- https://github.com/simrat39/rust-tools.nvim
@@ -11,9 +13,9 @@ return {
 			-- https://rust-analyzer.github.io/manual.html#configuration
 			vim.g.rustaceanvim = {
 				server = {
-					cmd = { "rustup", "run", "nightly", "rust-analyzer" },
+					cmd = { "rustup", "run", "stable", "rust-analyzer" },
 					on_attach = function(client, bufnr)
-						-- vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+						vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
 					end,
 					default_settings = {
 						-- rust-analyzer language server configuration
@@ -23,6 +25,9 @@ return {
 								buildScripts = {
 									enable = true,
 								},
+							},
+							checkOnSave = {
+								command = "clippy",
 							},
 							imports = {
 								granularity = {
