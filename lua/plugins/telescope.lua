@@ -19,6 +19,7 @@ local function get_ignore_files()
 		"bin/",
 		-- JS / Node
 		"node_modules/",
+		"dist/",
 		-- Python
 		".pyc",
 		".venv/",
