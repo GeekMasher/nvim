@@ -65,6 +65,7 @@ return {
                     new_section("Lazy", "Lazy", "Config"),
                     new_section("Mason", "Mason", "Config"),
                     -- AI
+                    new_section("AI Selector", [[lua require("plugins.ai.selector").select_ai() ]], "AI"),
                     new_section("Copilot", "CopilotChat", "AI"),
 
                     -- Other

@@ -48,11 +48,20 @@ function M.select_ai()
     vim.g.selected_ai = choice
 
     if choice == "copilot" then
-      vim.cmd("Lazy load copilot.lua copilot-cmp CopilotChat.nvim")
-      vim.notify("Loaded GitHub Copilot", vim.log.levels.INFO)
+      local ok, err = pcall(vim.cmd, "Lazy load copilot.lua")
+      if ok then
+        pcall(vim.cmd, "Lazy load copilot-cmp CopilotChat.nvim")
+        vim.notify("Loaded GitHub Copilot", vim.log.levels.INFO)
+      else
+        vim.notify("Copilot plugins not configured. Enable in lua/plugins/ai/init.lua", vim.log.levels.WARN)
+      end
     elseif choice == "claudecode" then
-      vim.cmd("Lazy load claudecode.nvim")
-      vim.notify("Loaded Claude Code", vim.log.levels.INFO)
+      local ok, err = pcall(vim.cmd, "Lazy load claudecode.nvim")
+      if ok then
+        vim.notify("Loaded Claude Code", vim.log.levels.INFO)
+      else
+        vim.notify("ClaudeCode plugin not configured. Enable in lua/plugins/ai/init.lua", vim.log.levels.WARN)
+      end
     end
   end)
 end
