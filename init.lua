@@ -18,14 +18,14 @@ Resources:
 -- Install Lazy if not present on the system
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-	vim.fn.system({
-		"git",
-		"clone",
-		"--filter=blob:none",
-		"https://github.com/folke/lazy.nvim.git",
-		"--branch=stable",
-		lazypath,
-	})
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable",
+    lazypath,
+  })
 end
 vim.opt.rtp:prepend(lazypath)
 
@@ -102,17 +102,17 @@ vim.opt.incsearch = true
 vim.opt.path:append({ "**" })
 -- Ignore Files
 vim.opt.wildignore:append({
-	-- Git
-	"**/.git/*",
-	-- Python
-	"**/.pyc",
-	-- Rust
-	"**/target/",
-	-- JS/TS
-	"*/node_modules/*",
-	-- Mobile
-	"**/ios/*",
-	"**/android/*",
+  -- Git
+  "**/.git/*",
+  -- Python
+  "**/.pyc",
+  -- Rust
+  "**/target/",
+  -- JS/TS
+  "*/node_modules/*",
+  -- Mobile
+  "**/ios/*",
+  "**/android/*",
 })
 
 local opts = { noremap = true, silent = true }
