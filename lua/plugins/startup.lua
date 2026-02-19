@@ -56,15 +56,20 @@ return {
                 evaluate_single = true,
                 header = logo,
                 items = {
-                    new_section("Find file", "Telescope find_files", "Telescope"),
-                    new_section("Recent files", "Telescope oldfiles", "Telescope"),
-                    new_section("Grep text", "Telescope live_grep", "Telescope"),
+                    -- File things
+                    new_section("Find file", "Telescope find_files", "Files"),
+                    new_section("Recent files", "Telescope oldfiles", "Files"),
+                    new_section("Grep text", "Telescope live_grep", "Files"),
+                    new_section("New file", "ene | startinsert", "Files"),
+                    -- Package Managers
                     new_section("Lazy", "Lazy", "Config"),
                     new_section("Mason", "Mason", "Config"),
-                    new_section("CodeQL Database", [[lua require("codeql").list_databases()]], "CodeQL"),
-                    new_section("New file", "ene | startinsert", "Built-in"),
+                    -- AI
+                    new_section("Copilot", "CopilotChat", "AI"),
+
+                    -- Other
                     new_section("Quit", "qa", "Built-in"),
-                    new_section("Session restore", [[lua require("persistence").load()]], "Session"),
+                    new_section("Session restore", [[lua require("persistence").load()]], "Built-in"),
                 },
                 content_hooks = {
                     starter.gen_hook.adding_bullet(pad .. "░ ", false),
