@@ -74,6 +74,7 @@ vim.opt.scrolloff = 10
 vim.opt.backup = false
 vim.opt.swapfile = false
 vim.opt.backupskip = { "/tmp/*", "/private/tmp/*" }
+vim.opt.autoread = true
 
 -- Shell used
 vim.opt.shell = "zsh"
