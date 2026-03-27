@@ -18,7 +18,6 @@ return {
       vim.cmd("colorscheme tokyonight-storm")
     end,
   },
-  "flazz/vim-colorschemes",
   {
     "kyazdani42/nvim-web-devicons",
     dependencies = {
