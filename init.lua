@@ -95,10 +95,6 @@ vim.opt.expandtab = true
 vim.opt.wrap = false
 vim.opt.backspace = { "start", "eol", "indent" }
 
--- search
-vim.opt.hlsearch = true
-vim.opt.incsearch = true
-
 -- Find files
 vim.opt.path:append({ "**" })
 -- Ignore Files
@@ -131,6 +127,11 @@ vim.keymap.set("n", "K", "20kzz", opts)
 
 vim.keymap.set("n", "L", "w", opts)
 vim.keymap.set("n", "H", "b", opts)
+
+-- search
+vim.opt.hlsearch = false
+vim.opt.incsearch = false
+-- vim.keymap.set("n", "<C-/>", ":nohlsearch<CR>", opts) -- disable CTRL + / for search
 
 -- Disable Arrow Keys (you have to learn some day)
 vim.keymap.set("n", "<left>", '<cmd>echo "Use h to move!!"<CR>')

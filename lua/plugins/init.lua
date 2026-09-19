@@ -20,15 +20,6 @@ return {
     "folke/neodev.nvim",
     opts = {},
   },
-  -- todo comments
-  {
-    "folke/todo-comments.nvim",
-    event = "VimEnter",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    },
-    opts = { signs = false },
-  },
   -- Trouble
   {
     -- https://github.com/folke/trouble.nvim
@@ -58,13 +49,27 @@ return {
   },
   -- Comment
   {
-    "numToStr/Comment.nvim",
-    config = function()
-      require("Comment").setup({
-        -- <C-_> == <CTRL> /
-        toggler = { line = "<C-_>" },
-        opleader = { line = "<C-_>" },
-      })
-    end,
+    -- https://github.com/nvim-mini/mini.comment
+    -- https://github.com/LazyVim/LazyVim/blob/459a4c3b1059671e766a46c7cc223827dc67e3d0/lua/lazyvim/plugins/extras/coding/mini-comment.lua
+    "nvim-mini/mini.comment",
+    event = "VeryLazy",
+    opts = {
+      options = {
+        ignore_blank_line = true,
+      },
+      mappings = {
+        comment = "<leader>c",
+        comment_visual = "<leader>c",
+      },
+    },
+  },
+  -- todo comments
+  {
+    "folke/todo-comments.nvim",
+    event = "VimEnter",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    opts = { signs = false },
   },
 }

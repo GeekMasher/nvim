@@ -13,7 +13,6 @@ return {
       -- https://rust-analyzer.github.io/manual.html#configuration
       vim.g.rustaceanvim = {
         server = {
-          cmd = { "rustup", "run", "stable", "rust-analyzer" },
           on_attach = function(client, bufnr)
             vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
           end,
@@ -21,13 +20,14 @@ return {
             -- rust-analyzer language server configuration
             ["rust-analyzer"] = {
               cargo = {
-                features = "all",
+                allFeatures = true,
                 buildScripts = {
                   enable = true,
                 },
               },
               checkOnSave = {
                 command = "clippy",
+                allFeatures = true,
               },
               imports = {
                 granularity = {
@@ -37,6 +37,29 @@ return {
               },
               procMacro = {
                 enable = true,
+              },
+              completion = {
+                autoimport = {
+                  enable = true,
+                },
+                callable = {
+                  snippets = "fill_arguments",
+                },
+              },
+              inlayHints = {
+                bindingModeHints = {
+                  enable = true,
+                },
+                closingBraceHints = {
+                  minLines = 10,
+                },
+                closureReturnTypeHints = {
+                  enable = "with_block",
+                },
+                lifetimeElisionHints = {
+                  enable = "skip_trivial",
+                  useParameterNames = true,
+                },
               },
             },
           },
